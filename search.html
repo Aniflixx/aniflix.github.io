@@ -1,0 +1,732 @@
+<!-- search.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Anime Website - Search Results</title>
+  <script src="java.js"></script>
+  <link rel="stylesheet" href="Styles2.css">
+  <link rel="icon" type="image/x-icon" href="instant/A.ico">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #222222;
+      color: #fff;
+    }
+
+    header {
+      background-color: #2a2a2a;
+      padding: 0.5em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 1.5cm;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .menu-icon,
+    .search-icon,
+    .profile-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      fill: #ff0000;
+      margin: 0 1em;
+    }
+
+    .title {
+      display: flex;
+      align-items: flex-start;
+      margin-right: auto;
+    }
+
+    .logo {
+      height: 1.2cm;
+      width: auto;
+      max-width: 100%;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 7px;
+    }
+
+    .search-input-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input {
+      margin-right: 10px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 750px;
+    }
+
+    .search-button {
+      background-color: #ff0000;
+      color: #fff;
+      padding: 12px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 80px;
+    }
+
+.search-results {
+  /* Add any specific styles for search results */
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap; /* Allow tiles to wrap to the next line */
+  justify-content: space-evenly; /* Adjust as needed for spacing */
+}
+
+    /* Include Styles2.css styles here */
+    .modal {
+      /* ... (copy the contents) ... */
+    }
+
+    /* ... (copy any additional styles from Styles2.css) ... */
+.all-folders-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow tiles to wrap to the next line */
+  justify-content: space-between;  align-items: top;
+  width: 100%; /* Make each container take the full width of the parent */
+  height: 400px;
+  margin: 0px;
+  padding: 10px;
+}
+h2 {
+  color: #fff; /* Set the color as needed */
+  text-align: center; /* Center the text */
+  margin-bottom: 10px; /* Add some space between the text and the tiles */
+  font-weight: bold; /* Make the text bold */
+  font-size: 40px; /* Set the font size as needed */
+  text-decoration: underline; /* Add an underline */
+  text-decoration-color: #ff0000; /* Set the underline color to red */
+}
+
+.folder-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 5px;
+  border: 2px solid #ff0000;
+  border-radius: 5px;
+  background-color: #000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Add smooth transition */
+  max-width: 200px; /* Limit the maximum width of each container */
+  width: 100%; /* Make each container take the full width of the parent */
+  margin-bottom: 10px; /* Add margin-bottom for spacing between tiles */
+}
+
+.folder-container:hover {
+  transform: scale(1.07); /* Increase size on hover */
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Add a red spotlight effect on hover */
+}
+    .folder-image {
+      width: 200px; /* Adjust the width as needed */
+      height: 300px; /* Adjust the height as needed */
+      object-fit: cover; /* Maintain aspect ratio */
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+.folder-name {
+  font-size: 22px;
+  font-weight: bold; /* Add bold font-weight */
+  text-decoration: underline; /* Add underline */
+  text-decoration-color: #ff0000; /* Set red underline color */
+}
+.all-folders-wrapper {
+  text-align: center;
+}
+
+.all-anime-button {
+  /* Add specific styles for the "All Anime" button inside the all folder container */
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px; /* Add margin as needed */
+}
+
+.series-button,
+.movies-button,
+.all-anime-button {
+  background-color: transparent; /* Set background to transparent */
+  color: #fff; /* Adjust the text color as needed */
+  padding: 8px 120px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* Remove default underline */
+  font-size: 30px;
+  font-weight: bold;
+  position: relative; /* Set relative position for pseudo-element */
+}
+
+.series-button:after,
+.movies-button:after,
+.all-anime-button:after {
+  content: ''; /* Add content for pseudo-element */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px; /* Underline height */
+  background-color: #ff0000; /* Underline color */
+  transform: scaleX(0); /* Initially set to scale 0 */
+  transform-origin: bottom left; /* Set transform origin to bottom left */
+  transition: transform 0.3s ease-in-out; /* Add smooth transition */
+}
+
+.series-button:hover:after,
+.movies-button:hover:after,
+.all-anime-button:hover:after {
+  transform: scaleX(1); /* Scale to show underline on hover */
+}
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="menu-icon" onclick="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </div>
+    <h1 class="title">
+      <img class="logo" src="instant/ANIFLIX.png" alt="ANIFLIX Logo">
+    </h1>
+
+    <div class="search-input-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search For Anime...">
+      <button class="search-button" onclick="searchVideos()">Search</button>
+    </div>
+
+    <div class="profile-icon" onclick="toggleProfileInfo()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9.5" cy="8" r="5" />
+        <path d="M5 20s1.5-2 4-2 4 2 4 2" />
+      </svg>
+    </div>
+
+    <div id="profileInfoContainer" class="profile-info-container">
+      <div id="profileInfoBox" class="profile-info-box">
+        <button id="loginButton" onclick="login()">Login</button>
+        <button id="signupButton" onclick="signup()">Signup</button>
+      </div>
+    </div>
+  </header>
+
+<main>
+  <div class="search-results" id="searchResultsContainer">
+    <!-- Results will be dynamically added here after a search -->
+  </div>
+
+  <div class="action-buttons">
+    <button class="series-button" onclick="handleSeriesClick()">Series</button>
+    <button class="all-anime-button" onclick="handleAllAnimeClick()">All Anime</button>
+    <button class="movies-button" onclick="handleMoviesClick()">Movies</button>
+  </div>
+
+  <div class="all-folders-wrapper">
+    <h2></h2>
+    <div class="all-folders all-folders-container" id="allFoldersContainer">
+      <!-- Folders will be dynamically added here when the page loads -->
+    </div>
+
+    <!-- Container for movies -->
+    <div id="moviesContainer" style="display: none;">
+      <!-- ... content for movies ... -->
+    </div>
+
+    <!-- Container for series -->
+    <div id="seriesContainer" style="display: none;">
+      <!-- ... content for series ... -->
+    </div>
+  </div>
+</main>
+
+<!-- Your HTML content remains unchanged -->
+
+<script>
+async function searchVideos() {
+  const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+  const searchResultsContainer = document.getElementById('searchResultsContainer');
+  const allFoldersWrapper = document.querySelector('.all-folders-wrapper');
+
+  // Clear previous search results
+  searchResultsContainer.innerHTML = '';
+
+  if (searchInput !== '') {
+    try {
+      // Replace 'YOUR_FILEMOON_API_KEY' with your actual API key
+      const apiKey = '42605q5ytvlhmu9eris67';
+
+      // Replace 'YOUR_FOLDER_ID' with your actual folder ID
+      const folderId = '0';
+
+      const apiUrl = `https://filemoonapi.com/api/folder/list?key=${apiKey}&fld_id=${folderId}`;
+
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      if (data.status === 200) {
+        const folders = data.result.folders;
+
+        if (folders.length > 0) {
+          // Filter folders based on search input
+          const filteredFolders = folders.filter(folder =>
+            folder.name.toLowerCase().includes(searchInput)
+          );
+
+          if (filteredFolders.length > 0) {
+            // Display matching folder(s) as tiles
+            filteredFolders.forEach(folder => {
+              const folderContainer = document.createElement('div');
+              folderContainer.classList.add('folder-container');
+
+              // You can customize the folder content here
+              const folderImage = document.createElement('img');
+              folderImage.classList.add('folder-image');
+
+              // Set the Cloudinary folder name
+              const cloudinaryFolderName = `${folder.name.split('-')[0].replace(/\s+/g, '_')}_${folder.name.split('-')[1].replace(']', '')}`;
+              const cloudinaryImageUrl = `https://res.cloudinary.com/dadackhrl/image/upload/${cloudinaryFolderName}_Tile.jpg`;
+              console.log(`Title Image Cloudinary Link: ${cloudinaryImageUrl}`);
+
+              // Set the image source based on Cloudinary URL
+              folderImage.src = `https://res.cloudinary.com/dadackhrl/image/upload/${cloudinaryFolderName}_Tile.jpg`;
+
+              folderImage.alt = folder.name;
+
+              const folderName = document.createElement('div');
+              folderName.classList.add('folder-name');
+
+              // Extract folder ID from the folder name (assuming the format is [foldername-folderid])
+              const inclinedFolderId = folder.name.split('-')[1].replace(']', '');
+
+              // Log folder details to the console
+              console.log(`Folder ID: ${inclinedFolderId}`);
+
+              // Display only the folder name in the tile
+              folderName.textContent = folder.name.split('-')[0];
+
+              folderContainer.appendChild(folderImage);
+              folderContainer.appendChild(folderName);
+
+              // Add click event listener to the folder container
+              folderContainer.addEventListener('click', () => redirectToDetailPage(folder));
+
+              searchResultsContainer.appendChild(folderContainer);
+            });
+          } else {
+            // Display "NO MATCHING ANIME FOUND IN OUR SERVER" message
+            searchResultsContainer.innerHTML = '<h2>NO MATCHING ANIME FOUND IN OUR SERVER</h2>';
+          }
+        } else {
+          // Display "NO FOLDERS FOUND" message
+          searchResultsContainer.innerHTML = '<h2>NO MATCHING ANIME FOUND IN OUR SERVER</h2>';
+        }
+      } else {
+        // Handle API error
+        console.error('FileMoon API Error:', data.msg);
+        searchResultsContainer.innerHTML = '<h2>API Error</h2>';
+      }
+    } catch (error) {
+      // Handle fetch or other errors
+      console.error('Error:', error);
+      searchResultsContainer.innerHTML = '<h2>Unexpected Error</h2>';
+    }
+  } else {
+    // Display default message when there's no search query
+    searchResultsContainer.innerHTML = '<h2>Enter name of Anime to see results</h2>';
+  }
+}
+function displayFilesOnPage(folderId, files) {
+  // Your implementation here
+  console.log(`File list for ${folderId}:`, files);
+}
+// Function to fetch and display file list
+async function fetchAndDisplayFileList(folderId) {
+  try {
+    const apiKey = '42605q5ytvlhmu9eris67';
+    const apiUrl = `https://filemoonapi.com/api/file/list?key=${apiKey}&fld_id=${folderId}`;
+
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.status === 200) {
+      const files = data.result.files; // Extract the array of files
+
+      // Log the folder ID and whether it's a movie or series
+      if (files.length === 1) {
+        console.log(`Folder ID ${folderId} contains a movie: ${files[0].name}`);
+      } else if (files.length > 1) {
+        console.log(`Folder ID ${folderId} contains a series with ${files.length} episodes:`);
+        files.forEach((file, index) => {
+          console.log(`Episode ${index + 1}: ${file.name}`);
+        });
+      } else {
+        console.log(`Folder ID ${folderId} does not contain any files.`);
+      }
+
+      // Now, you can use the 'files' array as needed
+    } else {
+      console.error('FileMoon API Error:', data.msg);
+    }
+  } catch (error) {
+    console.error('Error fetching and displaying file list:', error);
+  }
+}
+
+
+// Function to log all folder IDs at the beginning of the page
+async function logAllFolderIds() {
+  try {
+    const folders = await fetchFoldersFromAPI();
+    if (folders.length > 0) {
+      console.log("Folder IDs:");
+      folders.forEach(folder => {
+        // Extract folder ID from the folder name (assuming the format is [foldername-folderid])
+        const inclinedFolderId = folder.name.split('-')[1].replace(']', '');
+
+        // Log folder ID to the console
+        console.log(`Folder ID: ${inclinedFolderId}`);
+      });
+    } else {
+      console.log("No Folders Found");
+    }
+  } catch (error) {
+    console.error('Error fetching folders:', error);
+    console.log(`Error Fetching Folders: ${error.message}`);
+  }
+}
+
+// Function to display a folder in the specified container
+function displayFolder(folder, container) {
+  const folderContainer = document.createElement('div');
+  folderContainer.classList.add('folder-container');
+
+  const folderImage = document.createElement('img');
+  folderImage.classList.add('folder-image');
+
+  const cloudinaryFolderName = `${folder.name.split('-')[0].replace(/\s+/g, '_')}_${folder.name.split('-')[1].replace(']', '')}`;
+  const cloudinaryImageUrl = `https://res.cloudinary.com/dadackhrl/image/upload/${cloudinaryFolderName}_Tile.jpg`;
+
+  folderImage.src = cloudinaryImageUrl;
+  folderImage.alt = folder.name;
+
+  const folderName = document.createElement('div');
+  folderName.classList.add('folder-name');
+  folderName.textContent = folder.name.split('-')[0];
+
+  folderContainer.appendChild(folderImage);
+  folderContainer.appendChild(folderName);
+
+  container.appendChild(folderContainer);
+
+  // Add click event listener to the folder container
+  folderContainer.addEventListener('click', () => redirectToDetailPage(folder));
+}
+
+// Function to fetch and display the file list for a folder
+async function fetchAndDisplayFileList(folderId) {
+  try {
+    const apiKey = '42605q5ytvlhmu9eris67';
+    const apiUrl = `https://filemoonapi.com/api/file/list?key=${apiKey}&fld_id=${folderId}`;
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.status === 200) {
+      const files = data.result;
+
+      // Now, you can process the files as needed, for example, display them on the page
+      displayFilesOnPage(folderId, files);
+    } else {
+      console.error('FileMoon API Error:', data.msg);
+    }
+  } catch (error) {
+    console.error('Error fetching and displaying file list:', error);
+  }
+}
+
+// Function to handle tile click and redirect to the detail page
+function redirectToDetailPage(folder) {
+  // Destructure the folder object to get the required information
+  const { name: folderName } = folder;
+
+  // Extract folder ID and folder name from the folder name (assuming the format is [foldername-folderid])
+  const [inclinedFolderName, inclinedFolderId] = folderName.split('-').map(str => str.replace(/[\[\]]/g, ''));
+
+  // Log folder details to the console
+  console.log(`Folder ID: ${inclinedFolderId}`);
+  console.log(`Folder Name: ${inclinedFolderName}`);
+
+  // Create a Cloudinary link for the folder image
+  const cloudinaryFolderName = inclinedFolderName.replace(/\s+/g, '_');
+  const cloudinaryImageUrl = `https://res.cloudinary.com/dadackhrl/image/upload/${cloudinaryFolderName}_${inclinedFolderId}_Tile.jpg`;
+  console.log(`Title Image Cloudinary Link: ${cloudinaryImageUrl}`);
+
+  // Redirect to the detail page and pass information as URL parameters
+  window.location.href = `detail.html?folderId=${encodeURIComponent(inclinedFolderId)}&folderName=${encodeURIComponent(inclinedFolderName)}&tileImage=${encodeURIComponent(cloudinaryImageUrl)}`;
+}
+
+// Function to display all folders based on the search input
+async function displayAllFolders() {
+  // Log a message at the beginning of the page
+  console.log("Fetching and logging folder IDs...");
+
+  try {
+    const apiKey = '42605q5ytvlhmu9eris67';
+    const folderId = '0';
+    const apiUrl = `https://filemoonapi.com/api/folder/list?key=${apiKey}&fld_id=${folderId}`;
+    console.log('API URL:', apiUrl); // Log API URL
+
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    console.log('API Response:', data); // Log API response
+
+    if (data.status === 200) {
+      const folders = data.result.folders;
+
+      if (folders.length > 0) {
+        // Log folder IDs at the beginning
+        console.log("Folder IDs:");
+        folders.forEach(folder => {
+          // Extract folder ID from the folder name (assuming the format is [foldername-folderid])
+          const inclinedFolderId = folder.name.split('-')[1].replace(']', '');
+
+          // Log folder ID to the console
+          console.log(`Folder ID: ${inclinedFolderId}`);
+
+          // Fetch and display the file list for each folder
+          fetchAndDisplayFileList(inclinedFolderId);
+
+          // Display folder in the 'allFoldersContainer'
+          displayFolder(folder, document.getElementById('allFoldersContainer'));
+        });
+      } else {
+        console.log("No Folders Found");
+      }
+    } else {
+      console.error('FileMoon API Error:', data.msg);
+      console.log(`API Error: ${data.msg}`);
+    }
+  } catch (error) {
+    console.error('Error fetching folders:', error);
+    console.log(`Error Fetching Folders: ${error.message}`);
+  }
+}
+
+// Call the function to display all folders when the page loads
+window.onload = function () {
+  logAllFolderIds();
+  displayAllFolders();
+};
+
+// Other functions and event listeners...
+
+// Function to categorize and display shows (movies or series)
+function categorizeAndDisplayShows(folderId, resultsTotal) {
+  // Determine if it's a movie or series based on the number of results
+  if (resultsTotal === 1) {
+    console.log(`Folder ID ${folderId} is a Movie`);
+  } else if (resultsTotal > 1) {
+    console.log(`Folder ID ${folderId} is a Series`);
+  } else {
+    console.log(`Folder ID ${folderId} has no files`);
+  }
+}
+
+// Function to fetch and display file list
+async function fetchAndDisplayFileList(folderId) {
+  try {
+    const apiKey = '42605q5ytvlhmu9eris67';
+    const apiUrl = `https://filemoonapi.com/api/file/list?key=${apiKey}&fld_id=${folderId}`;
+
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.status === 200) {
+      const resultsTotal = data.result.results_total;
+
+      // Log the folder ID and file list to the console
+      console.log(`Folder ID: ${folderId}`);
+      
+      // Call the modified categorization function
+      categorizeAndDisplayShows(folderId, resultsTotal);
+
+      // Now, you can process the files as needed, for example, display them on the page
+      displayFilesOnPage(folderId, data.result.files);
+    } else {
+      console.error('FileMoon API Error:', data.msg);
+    }
+  } catch (error) {
+    console.error('Error fetching and displaying file list:', error);
+  }
+}
+function displayFoldersByCategory(category) {
+  const allFoldersContainer = document.getElementById('allFoldersContainer');
+  const moviesContainer = document.getElementById('moviesContainer');
+  const seriesContainer = document.getElementById('seriesContainer');
+
+  // Reset container visibility
+  allFoldersContainer.style.display = 'none';
+  moviesContainer.style.display = 'none';
+  seriesContainer.style.display = 'none';
+
+  // Display folders based on the selected category
+  switch (category) {
+    case 'movies':
+      displayFilteredFolders(allFoldersContainer, 'Movie');
+      moviesContainer.style.display = 'block';
+      break;
+    case 'series':
+      displayFilteredFolders(allFoldersContainer, 'Series');
+      seriesContainer.style.display = 'block';
+      break;
+    default:
+      allFoldersContainer.style.display = 'block';
+      break;
+  }
+}
+
+function displayFilteredFolders(container, category) {
+  const folders = [
+    // Replace this array with the actual folders array you logged in the console
+    // For example, you can directly copy the folders array from your console log
+  ];
+
+  const filteredFolders = folders.filter(folder => isCategory(folder, category));
+  displayFoldersInContainer(container, filteredFolders);
+}
+
+function isCategory(folder, category) {
+  // Implement your logic to check if the folder belongs to the specified category
+  // For example, you can check if the folder name or any property contains the category name
+
+  // Updated logic for 'Series' category
+  if (category === 'Series') {
+    return folder.name.toLowerCase().includes('series');
+  }
+
+  // Updated logic for 'Movies' category
+  if (category === 'Movie') {
+    return !folder.name.toLowerCase().includes('series');
+  }
+
+  return false;
+}
+
+// Function to display folders in a container
+function displayFoldersInContainer(container, folders) {
+  container.innerHTML = ''; // Clear the container before adding new folders
+
+  // Loop through the folders and add them to the container
+  folders.forEach(folder => {
+    const folderElement = document.createElement('div');
+    folderElement.textContent = `Folder ID: ${folder.id}`; // You can customize this as needed
+    container.appendChild(folderElement);
+  });
+}
+
+function displayFilteredFolders(container, category) {
+  const folders = [
+    // Replace this array with the actual folders array you logged in the console
+    // For example, you can directly copy the folders array from your console log
+  ];
+
+  const filteredFolders = folders.filter(folder => isCategory(folder, category));
+  displayFoldersInContainer(container, filteredFolders);
+}
+
+function isCategory(folder, category) {
+  // Convert folder name and category to lowercase for case-insensitive comparison
+  const folderName = folder.name.toLowerCase();
+  const categoryName = category.toLowerCase();
+
+  // Check if the folder name exactly matches the category (case-insensitive)
+  return folderName === categoryName;
+}
+
+
+// Function to toggle the visibility of movies and series containers
+function toggleContainers(containerType) {
+  const allFoldersContainer = document.getElementById('allFoldersContainer');
+  const moviesContainer = document.getElementById('moviesContainer');
+  const seriesContainer = document.getElementById('seriesContainer');
+
+  switch (containerType) {
+    case 'all':
+      allFoldersContainer.style.display = 'flex';
+      moviesContainer.style.display = 'none';
+      seriesContainer.style.display = 'none';
+      break;
+    case 'movies':
+      allFoldersContainer.style.display = 'none';
+      moviesContainer.style.display = 'flex';
+      seriesContainer.style.display = 'none';
+      break;
+    case 'series':
+      allFoldersContainer.style.display = 'none';
+      moviesContainer.style.display = 'none';
+      seriesContainer.style.display = 'flex';
+      break;
+  }
+}
+
+// Function to handle click on the "All Anime" button
+function handleAllAnimeClick() {
+  // Call the function to display all folders when the "All Anime" button is clicked
+  toggleContainers('all');
+  displayAllFolders();
+}
+
+function handleSeriesClick() {
+  const seriesFolders = categorizeAndDisplayShows('series');
+  displayFoldersByCategory('series', seriesFolders);
+}
+
+function handleMoviesClick() {
+  const movieFolders = categorizeAndDisplayShows('movies');
+  displayFoldersByCategory('movies', movieFolders);
+}
+
+// Example usage: When the "Movies" button is clicked
+document.getElementById('moviesButton').addEventListener('click', handleMoviesClick);
+
+// Example usage: When the "Series" button is clicked
+document.getElementById('seriesButton').addEventListener('click', handleSeriesClick);
+
+// Example usage: When the "All Anime" button is clicked
+document.getElementById('allAnimeButton').addEventListener('click', handleAllAnimeClick);
+
+</script>
+
+
+  <footer>
+    <!-- ... (existing footer content) ... -->
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Anime Website</title>
+  <script src="java.js"></script>
+  <link rel="stylesheet" href="Styles2.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?
+    <link rel="icon" type="image/x-icon" href="instant/A.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="instant/A.ico">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #2b2b2b;
+      color: #fff;
+    }
+
+    header {
+      background-color: #282c34;
+      padding: 0.5em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 1.5cm;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .menu-icon,
+    .search-icon,
+    .profile-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      fill: #ff0000;
+      margin: 0 1em;
+    }
+
+    .title {
+      display: flex;
+      align-items: flex-start;
+      margin-right: auto;
+    }
+
+    .logo {
+      height: 1.2cm;
+      width: auto;
+      max-width: 100%;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 7px;
+    }
+
+.trending-container {
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+}
+
+.trending-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0.5, 0, 0); /* Adjust the transparency here */
+    pointer-events: none; /* Allow click-through to the underlying elements */
+    z-index: 1;
+}
+
+.trending-section {
+  position: relative;
+  padding: 20px;
+}
+
+.trending-section h2 {
+  color: #ff0000;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+        .trending-tiles {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            width: 100%;
+            white-space: nowrap;
+        }
+
+
+/* Add these styles for the Trending Tiles */
+.anime-container {
+  width: 150px;
+  height: 230px;
+  margin-right: 10px;
+  flex: 0 0 auto;
+}
+
+.anime-tile {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  background-color: #ff0000;
+  border-radius: 5px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.anime-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anime-tile:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 0, 0, 0.7);
+      color: white;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s, visibility 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .anime-container:hover .overlay {
+      visibility: visible;
+      opacity: 1;
+    }
+
+.anime-info,
+.anime-title {
+  text-align: center;
+}
+
+.anime-title {
+  color: #ffffff;
+  background-color: #ff0000;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 5px;
+  margin-top: -5px;
+  box-sizing: border-box;
+}
+.spotlight {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  height: 100vh; /* Set to 100% of viewport height */
+  position: relative;
+  display: flex;
+  scroll-behavior: smooth;
+  aspect-ratio: 2.35 / 1;
+}
+
+.spotlight-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.spotlight-title {
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.spotlight-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none; /* Prevent interaction with hidden spotlights */
+}
+
+.spotlight img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+}
+
+.spotlight-content h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.spotlight-inner {
+  display: flex;
+}
+
+.active {
+  animation: showSpotlights 32s linear infinite;
+}
+
+@keyframes showSpotlights {
+  0%, 25% {
+    opacity: 0;
+  }
+  37.5%, 62.5% {
+    opacity: 1;
+  }
+  75%, 100% {
+    opacity: 0;
+  }
+}
+
+
+
+.spotlight-container.active {
+  opacity: 1;
+}
+
+
+.play-button,
+.details-button {
+  background-color: #ff0000;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+/* Customize scrollbar */
+body {
+  margin-right: 0px; /* Reserve space for the scrollbar on the right */
+}
+
+/* Vertical Scrollbar */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #ff0000; /* Red color for the thumb */
+  border-radius: 6px;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #2b2b2b; /* Background color for the track */
+}
+
+/* Show scrollbar on hover */
+body:hover::-webkit-scrollbar-thumb {
+  opacity: 1; /* Visible on hover */
+}
+
+/* Add a hover effect to the scrollbar thumb */
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #cc0000; /* Lighter red on hover */
+}
+
+/* Horizontal Scrollbar */
+body::-webkit-scrollbar-horizontal {
+  height: 8px;
+}
+
+body::-webkit-scrollbar-thumb:horizontal {
+  background-color: #ff0000; /* Red color for the thumb */
+  border-radius: 6px;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s;
+}
+
+body::-webkit-scrollbar-track:horizontal {
+  background-color: #2b2b2b; /* Background color for the track */
+}
+
+/* Show horizontal scrollbar on hover */
+body:hover::-webkit-scrollbar-thumb:horizontal {
+  opacity: 1; /* Visible on hover */
+}
+
+/* Add a hover effect to the horizontal scrollbar thumb */
+body::-webkit-scrollbar-thumb:horizontal:hover {
+  background-color: #cc0000; /* Lighter red on hover */
+}
+
+#introVideoContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+#introVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Adjust the margin-bottom to create space for the scrollbar under the video container */
+body:not(.show-scrollbar) {
+  margin-bottom: 8px; /* Adjust the value based on your scrollbar width */
+}
+
+  </style>
+</head>
+
+<body>
+  <div id="introVideoContainer" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 9999;">
+    <video id="introVideo" width="100%" height="100%" autoplay muted>
+      <source src="instant/INTRO.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <header>
+    <div class="menu-icon" onclick="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </div>
+    <h1 class="title">
+      <img class="logo" src="instant/ANIFLIX.png" alt="ANIFLIX Logo">
+    </h1>
+
+    <!-- Inside the header section -->
+    <div class="language-buttons">
+      <button id="japButton" onclick="selectLanguage('jap')" data-full-name="Japanese">JAP</button>
+      <button id="hinButton" onclick="selectLanguage('hin')" data-full-name="Hindi">HIN</button>
+      <button id="engButton" onclick="selectLanguage('eng')" data-full-name="English">ENG</button>
+    </div>
+    <div class="search-icon">
+    <a href="search.html" class="search-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </a>
+    </div>
+    <div class="profile-icon" onclick="toggleProfileInfo()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9.5" cy="8" r="5" />
+        <path d="M5 20s1.5-2 4-2 4 2 4 2" />
+      </svg>
+    </div>
+
+    <div id="profileInfoContainer" class="profile-info-container">
+      <div id="profileInfoBox" class="profile-info-box">
+        <button id="loginButton" onclick="login()">Login</button>
+        <button id="signupButton" onclick="signup()">Signup</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+<div class="spotlight">
+  <div class="spotlight-inner">
+    <!-- Spotlight 1 -->
+    <div class="spotlight-container">
+      <img src="./instant/Spotlight3.jpeg" alt="The Legend Of Hanuman">
+      <div class="spotlight-content">
+        <h2 class="spotlight-title">THE LEGEND OF HANUMAN</h2>
+        <div class="spotlight-buttons">
+          <button class="play-button" onclick="playAnime('legend_of_hanuman_url')">PLAY</button>
+          <button class="details-button" onclick="viewDetails('legend_of_hanuman_details_url')">VIEW DETAILS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spotlight 2: The Legend Of Hanuman -->
+    <div class="spotlight-container">
+      <img src="./instant/Spotlight1.jpg" alt="Spotlight 1">
+      <div class="spotlight-content">
+        <h2 class="spotlight-title">JUJUTSU KAISIN</h2>
+        <div class="spotlight-buttons">
+          <button class="play-button" onclick="playAnime('jujutsu_kaisin_url')">PLAY</button>
+          <button class="details-button" onclick="viewDetails('jujutsu_kaisin_details_url')">VIEW DETAILS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spotlight 3: Dragon Ball Super -->
+    <div class="spotlight-container">
+      <img src="./instant/Spotlight4.jpg" alt="DBS">
+      <div class="spotlight-content">
+        <h2 class="spotlight-title">DRAGON BALL SUPER</h2>
+        <div class="spotlight-buttons">
+          <button class="play-button" onclick="playAnime('dragon_ball_super_url')">PLAY</button>
+          <button class="details-button" onclick="viewDetails('dragon_ball_super_details_url')">VIEW DETAILS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spotlight 3: Solo Leveling -->
+    <div class="spotlight-container">
+      <img src="./instant/Spotlight2.jpe" alt="Spotlight 2">
+      <div class="spotlight-content">
+        <h2 class="spotlight-title">SOLO LEVELING</h2>
+        <div class="spotlight-buttons">
+          <button class="play-button" onclick="playAnime('solo_leveling_url')">PLAY</button>
+          <button class="details-button" onclick="viewDetails('solo_leveling_details_url')">VIEW DETAILS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+<div class="trending-container">
+    <div class="trending-overlay"></div>
+  <section class="trending-section">
+    <h2>Trending</h2>
+    
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+    </div>
+
+
+  </section>
+</main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const introVideoContainer = document.getElementById('introVideoContainer');
+      const introVideo = document.getElementById('introVideo');
+
+      // Play the video
+      introVideo.play();
+
+      // Set a timeout to hide the video container after 6 seconds
+      setTimeout(function () {
+        removeVideo();
+      }, 6000);
+    });
+
+    function removeVideo() {
+      const introVideoContainer = document.getElementById('introVideoContainer');
+      introVideoContainer.remove();
+
+      // Your existing logic or actions after the video has played
+    }
+
+  const isLoggedIn = false;
+
+  document.addEventListener('DOMContentLoaded', updateLoginStatus);
+
+  function updateLoginStatus() {
+    const loginButton = document.getElementById('loginButton');
+    const signupButton = document.getElementById('signupButton');
+
+    [loginButton, signupButton].forEach(button => {
+      button.style.display = isLoggedIn ? 'none' : 'block';
+    });
+  }
+
+  function login() {
+    alert('Redirecting to login portal');
+  }
+
+  function signup() {
+    alert('Signup button clicked!');
+  }
+
+document.addEventListener('DOMContentLoaded', function () {
+  const spotlights = document.querySelectorAll('.spotlight-container');
+  let currentSpotlightIndex = 0;
+
+  function updateSpotlights() {
+    spotlights.forEach((spotlight, index) => {
+      spotlight.classList.remove('active');
+    });
+
+    spotlights[currentSpotlightIndex].classList.add('active');
+
+    currentSpotlightIndex = (currentSpotlightIndex + 1) % spotlights.length;
+
+    setTimeout(updateSpotlights, 8000); // Adjust the timeout as needed (8 seconds for each spotlight)
+  }
+
+  updateSpotlights();
+});
+
+
+
+</script>
+
+  <footer>
+    <!-- Your existing footer content... -->
+  </footer>
+
+</body>
+
+</html>
